@@ -1,3 +1,6 @@
+#ifndef __VIDEO_SURFACE_HPP__
+#define __VIDEO_SURFACE_HPP__
+
 #include <boost/noncopyable.hpp>
 #include <SDL/SDL.h>
 #include <GL/gl.h>
@@ -37,20 +40,20 @@ class VideoSurface: private LogPolicy,
       LogPolicy::log("SDL video initialization started.");
 
       if (0 != SDLVideoInitPolicy::SDL_Init()) {
-        LogPolicy::log("SDL init failed: " + SDLVideoInitPolicy::getError());
+        LogPolicy::log("SDL init failed: " + SDLVideoInitPolicy::SDL_GetError());
         SDLVideoInitPolicy::handleError();
         return false;
       }
 
       const SDL_VideoInfo* videoInfo = 0;
       if (0 == (videoInfo = SDLVideoInitPolicy::SDL_GetVideoInfo())) {
-        LogPolicy::log("SDL get video information failed: " + SDLVideoInitPolicy::getError());
+        LogPolicy::log("SDL get video information failed: " + SDLVideoInitPolicy::SDL_GetError());
         SDLVideoInitPolicy::handleError();
         return false;
       }
 
       if (0 != SDLVideoInitPolicy::SDL_GL_SetAttributes()) {
-        LogPolicy::log("SDL set GL attributes failed: " + SDLVideoInitPolicy::getError());
+        LogPolicy::log("SDL set GL attributes failed: " + SDLVideoInitPolicy::SDL_GetError());
         SDLVideoInitPolicy::handleError();
         return false;
       }
@@ -60,7 +63,7 @@ class VideoSurface: private LogPolicy,
 
       const SDL_Surface* surface = 0;
       if (0 == (surface = SDLVideoInitPolicy::SDL_SetVideoMode(_width, _height, bpp, flags))) {
-        LogPolicy::log("SDL set video mode failed: " + SDLVideoInitPolicy::getError());
+        LogPolicy::log("SDL set video mode failed: " + SDLVideoInitPolicy::SDL_GetError());
         SDLVideoInitPolicy::handleError();
         return false;
       }
@@ -80,3 +83,5 @@ class VideoSurface: private LogPolicy,
     int _width;
     int _height;
 };
+
+#endif

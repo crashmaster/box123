@@ -1,9 +1,9 @@
 #include <boost/test/unit_test.hpp>
-#include <Box123VideoSurface.hpp>
+#include <VideoSurface.hpp>
 
 BOOST_AUTO_TEST_SUITE(VideoSurfaceTestSuite)
 
-std::vector<std::string> LOGOUTPUT_TESTING;
+static std::vector<std::string> LOGOUTPUT_TESTING;
 
 class LoggingPolicy_Test {
   protected:
@@ -15,15 +15,15 @@ class LoggingPolicy_Test {
     }
 };
 
-class SDLVideoInfo_Testing_OK {
+class SDLVideoInfo_Test_OK {
   public:
-    SDLVideoInfo_Testing_OK(): _pixelFormat(0), _videoInfo(0) {
+    SDLVideoInfo_Test_OK(): _pixelFormat(0), _videoInfo(0) {
       _pixelFormat = new SDL_PixelFormat;
       _videoInfo = new SDL_VideoInfo;
       _videoInfo->vfmt = _pixelFormat;
       _pixelFormat->BitsPerPixel = 32;
     }
-    ~SDLVideoInfo_Testing_OK() {
+    ~SDLVideoInfo_Test_OK() {
       delete _pixelFormat;
       delete _videoInfo;
     }
@@ -35,19 +35,19 @@ class SDLVideoInfo_Testing_OK {
     SDL_VideoInfo* _videoInfo;
 };
 
-class SDLVideoInfo_Testing_NOK {
+class SDLVideoInfo_Test_NOK {
   public:
     SDL_VideoInfo* getVideoInfo() const {
       return 0;
     }
 };
 
-class SDLSurface_Testing_OK {
+class SDLSurface_Test_OK {
   public:
-    SDLSurface_Testing_OK(): _videoSurface(0) {
+    SDLSurface_Test_OK(): _videoSurface(0) {
       _videoSurface = new SDL_Surface;
     }
-    ~SDLSurface_Testing_OK() {
+    ~SDLSurface_Test_OK() {
       delete _videoSurface;
     }
     SDL_Surface* getVideoSurface() const {
@@ -57,15 +57,22 @@ class SDLSurface_Testing_OK {
     SDL_Surface* _videoSurface;
 };
 
-class SDLSurface_Testing_NOK {
+class SDLSurface_Test_NOK {
   public:
     SDL_Surface* getVideoSurface() const {
       return 0;
     }
 };
 
-class SDLVideoInitPolicy_TestingHappyFlow {
+static bool SDL_QUIT_CALLED = false;
+static int EXIT_CODE = 0;
+
+class SDLVideoInitPolicy_TestHappyFlow {
   protected:
+    SDLVideoInitPolicy_TestHappyFlow() {
+      SDL_QUIT_CALLED = false;
+      EXIT_CODE = 0;
+    }
     int SDL_Init() const {
       return 0;
     }
@@ -81,100 +88,82 @@ class SDLVideoInitPolicy_TestingHappyFlow {
     SDL_Surface* SDL_SetVideoMode(int, int, int, Uint32) const {
       return _videoSurface.getVideoSurface();
     }
+    void handleError() const {
+      SDL_QUIT_CALLED = true;
+      EXIT_CODE = 1;
+    }
+    std::string SDL_GetError() const {
+      return "ERROR XY!";
+    }
   private:
-    SDLVideoInfo_Testing_OK _videoInfo;
-    SDLSurface_Testing_OK _videoSurface;
+    SDLVideoInfo_Test_OK _videoInfo;
+    SDLSurface_Test_OK _videoSurface;
 };
 
-class SDLVideoInitPolicy_TestingSDLInitFail: public SDLVideoInitPolicy_TestingHappyFlow {
+class SDLVideoInitPolicy_TestSDLInitFail: public SDLVideoInitPolicy_TestHappyFlow {
   protected:
     int SDL_Init() const {
       return -1;
     }
 };
 
-class SDLVideoInitPolicy_TestingSDLGetVideoInfoFail: public SDLVideoInitPolicy_TestingHappyFlow {
+class SDLVideoInitPolicy_TestSDLGetVideoInfoFail: public SDLVideoInitPolicy_TestHappyFlow {
   protected:
     SDL_VideoInfo* SDL_GetVideoInfo() const {
       return _videoInfo.getVideoInfo();
     }
   private:
-    SDLVideoInfo_Testing_NOK _videoInfo;
+    SDLVideoInfo_Test_NOK _videoInfo;
 };
 
-class SDLVideoInitPolicy_TestingSDLGLSetAttributesFail: public SDLVideoInitPolicy_TestingHappyFlow {
+class SDLVideoInitPolicy_TestSDLGLSetAttributesFail: public SDLVideoInitPolicy_TestHappyFlow {
   protected:
     int SDL_GL_SetAttributes() const {
       return -1;
     }
 };
 
-class SDLVideoInitPolicy_TestingSDLSetVideoModeFail: public SDLVideoInitPolicy_TestingHappyFlow {
+class SDLVideoInitPolicy_TestSDLSetVideoModeFail: public SDLVideoInitPolicy_TestHappyFlow {
   protected:
     SDL_Surface* SDL_SetVideoMode(int, int, int, Uint32) const {
       return _videoSurface.getVideoSurface();
     }
   private:
-    SDLSurface_Testing_NOK _videoSurface;
+    SDLSurface_Test_NOK _videoSurface;
 };
 
-bool SDL_QUIT_CALLED = false;
-int EXIT_CODE = 0;
-
-class SDLErrorHandlingPolicy_Testing {
+class SDLErrorHandlingPolicy_Test {
   protected:
-    SDLErrorHandlingPolicy_Testing() {
-      SDL_QUIT_CALLED = false;
-      EXIT_CODE = 0;
-    }
-    void handleError() const {
-      SDL_QUIT_CALLED = true;
-      EXIT_CODE = 1;
-    }
-    std::string getError() const {
-      return "ERROR XY!";
-    }
 };
 
-class OpenGLInitPolicy_TestingHappyFlow {
+class OpenGLInitPolicy_TestHappyFlow {
   protected:
     void init(int, int) { }
 };
 
-BOOST_AUTO_TEST_CASE(testVideoSurfaceCreate) {
-  typedef Box123VideoSurface<LoggingPolicy_Test,
-                             SDLVideoInitPolicy_TestingHappyFlow,
-                             SDLErrorHandlingPolicy_Testing,
-                             OpenGLInitPolicy_TestingHappyFlow> TestVideoSurfaceType;
-
-  TestVideoSurfaceType myVideoSurface(120, 120);
-}
-
 BOOST_AUTO_TEST_CASE(testVideoSurfaceXstructorLogging) {
-  typedef Box123VideoSurface<LoggingPolicy_Test,
-                             SDLVideoInitPolicy_TestingHappyFlow,
-                             SDLErrorHandlingPolicy_Testing,
-                             OpenGLInitPolicy_TestingHappyFlow> TestVideoSurfaceType;
+  typedef VideoSurface<LoggingPolicy_Test,
+                       SDLVideoInitPolicy_TestHappyFlow,
+                       OpenGLInitPolicy_TestHappyFlow> TestVideoSurfaceType;
 
-  TestVideoSurfaceType* myVideoSurface = new TestVideoSurfaceType(240, 240);
-  delete myVideoSurface;
+  TestVideoSurfaceType* myTestVideoSurface = new TestVideoSurfaceType(240, 240);
+  delete myTestVideoSurface;
 
   BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.size(), std::vector<std::string>::size_type(2));
-  BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(0), "Box123VideoSurface object constructed.");
-  BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(1), "Box123VideoSurface object destructed.");
+  BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(0), "VideoSurface object constructed.");
+  BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(1), "VideoSurface object destructed.");
 }
 
 BOOST_AUTO_TEST_CASE(testVideoSurface_HappyFlow) {
-  typedef Box123VideoSurface<LoggingPolicy_Test,
-                             SDLVideoInitPolicy_TestingHappyFlow,
-                             SDLErrorHandlingPolicy_Testing,
-                             OpenGLInitPolicy_TestingHappyFlow> TestVideoSurfaceType;
+  typedef VideoSurface<LoggingPolicy_Test,
+                       SDLVideoInitPolicy_TestHappyFlow,
+                       OpenGLInitPolicy_TestHappyFlow> TestVideoSurfaceType;
 
-  TestVideoSurfaceType myVideoSurface(360, 360);
-  myVideoSurface.init();
+  TestVideoSurfaceType myTestVideoSurface(360, 360);
+  myTestVideoSurface.init();
 
   BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.size(), std::vector<std::string>::size_type(7));
-  BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(0), "Box123VideoSurface object constructed.");
+  BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(0), "VideoSurface object constructed.");
   BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(1), "Video surface initialization started.");
   BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(2), "SDL video initialization started.");
   BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(3), "SDL video initialization finished.");
@@ -186,16 +175,15 @@ BOOST_AUTO_TEST_CASE(testVideoSurface_HappyFlow) {
 }
 
 BOOST_AUTO_TEST_CASE(testVideoSurface_SDL_Init_NOK) {
-  typedef Box123VideoSurface<LoggingPolicy_Test,
-                             SDLVideoInitPolicy_TestingSDLInitFail,
-                             SDLErrorHandlingPolicy_Testing,
-                             OpenGLInitPolicy_TestingHappyFlow> TestVideoSurfaceType;
+  typedef VideoSurface<LoggingPolicy_Test,
+                       SDLVideoInitPolicy_TestSDLInitFail,
+                       OpenGLInitPolicy_TestHappyFlow> TestVideoSurfaceType;
 
-  TestVideoSurfaceType myVideoSurface(480, 480);
-  myVideoSurface.init();
+  TestVideoSurfaceType myTestVideoSurface(480, 480);
+  myTestVideoSurface.init();
 
   BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.size(), std::vector<std::string>::size_type(5));
-  BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(0), "Box123VideoSurface object constructed.");
+  BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(0), "VideoSurface object constructed.");
   BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(1), "Video surface initialization started.");
   BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(2), "SDL video initialization started.");
   BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(3), "SDL init failed: ERROR XY!");
@@ -205,16 +193,15 @@ BOOST_AUTO_TEST_CASE(testVideoSurface_SDL_Init_NOK) {
 }
 
 BOOST_AUTO_TEST_CASE(testVideoSurface_SDL_GetVideoInfo_NOK) {
-  typedef Box123VideoSurface<LoggingPolicy_Test,
-                             SDLVideoInitPolicy_TestingSDLGetVideoInfoFail,
-                             SDLErrorHandlingPolicy_Testing,
-                             OpenGLInitPolicy_TestingHappyFlow> TestVideoSurfaceType;
+  typedef VideoSurface<LoggingPolicy_Test,
+                       SDLVideoInitPolicy_TestSDLGetVideoInfoFail,
+                       OpenGLInitPolicy_TestHappyFlow> TestVideoSurfaceType;
 
-  TestVideoSurfaceType myVideoSurface(640, 640);
-  myVideoSurface.init();
+  TestVideoSurfaceType myTestVideoSurface(640, 640);
+  myTestVideoSurface.init();
 
   BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.size(), std::vector<std::string>::size_type(5));
-  BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(0), "Box123VideoSurface object constructed.");
+  BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(0), "VideoSurface object constructed.");
   BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(1), "Video surface initialization started.");
   BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(2), "SDL video initialization started.");
   BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(3), "SDL get video information failed: ERROR XY!");
@@ -224,16 +211,15 @@ BOOST_AUTO_TEST_CASE(testVideoSurface_SDL_GetVideoInfo_NOK) {
 }
 
 BOOST_AUTO_TEST_CASE(testVideoSurface_SDL_GL_SetAttributes_NOK) {
-  typedef Box123VideoSurface<LoggingPolicy_Test,
-                             SDLVideoInitPolicy_TestingSDLGLSetAttributesFail,
-                             SDLErrorHandlingPolicy_Testing,
-                             OpenGLInitPolicy_TestingHappyFlow> TestVideoSurfaceType;
+  typedef VideoSurface<LoggingPolicy_Test,
+                       SDLVideoInitPolicy_TestSDLGLSetAttributesFail,
+                       OpenGLInitPolicy_TestHappyFlow> TestVideoSurfaceType;
 
-  TestVideoSurfaceType myVideoSurface(640, 640);
-  myVideoSurface.init();
+  TestVideoSurfaceType myTestVideoSurface(640, 640);
+  myTestVideoSurface.init();
 
   BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.size(), std::vector<std::string>::size_type(5));
-  BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(0), "Box123VideoSurface object constructed.");
+  BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(0), "VideoSurface object constructed.");
   BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(1), "Video surface initialization started.");
   BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(2), "SDL video initialization started.");
   BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(3), "SDL set GL attributes failed: ERROR XY!");
@@ -243,16 +229,15 @@ BOOST_AUTO_TEST_CASE(testVideoSurface_SDL_GL_SetAttributes_NOK) {
 }
 
 BOOST_AUTO_TEST_CASE(testVideoSurface_SDL_SetVideoMode_NOK) {
-  typedef Box123VideoSurface<LoggingPolicy_Test,
-                             SDLVideoInitPolicy_TestingSDLSetVideoModeFail,
-                             SDLErrorHandlingPolicy_Testing,
-                             OpenGLInitPolicy_TestingHappyFlow> TestVideoSurfaceType;
+  typedef VideoSurface<LoggingPolicy_Test,
+                       SDLVideoInitPolicy_TestSDLSetVideoModeFail,
+                       OpenGLInitPolicy_TestHappyFlow> TestVideoSurfaceType;
 
-  TestVideoSurfaceType myVideoSurface(640, 640);
-  myVideoSurface.init();
+  TestVideoSurfaceType myTestVideoSurface(640, 640);
+  myTestVideoSurface.init();
 
   BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.size(), std::vector<std::string>::size_type(5));
-  BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(0), "Box123VideoSurface object constructed.");
+  BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(0), "VideoSurface object constructed.");
   BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(1), "Video surface initialization started.");
   BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(2), "SDL video initialization started.");
   BOOST_CHECK_EQUAL(LOGOUTPUT_TESTING.at(3), "SDL set video mode failed: ERROR XY!");

@@ -13,8 +13,8 @@
 *.a
 
 # Build targets
-build_output/*/bin/*
-build_output/*/lib/*
+build_output
+build_type
 
 # YCM
 .ycm_extra_conf.py*
