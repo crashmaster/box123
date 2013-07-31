@@ -11,3 +11,10 @@
 *.lai
 *.la
 *.a
+
+# Build targets
+build_output/*/bin/*
+build_output/*/lib/*
+
+# YCM
+.ycm_extra_conf.py*

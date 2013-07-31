@@ -1,0 +1,13 @@
+project (box123_executable)
+
+include_directories (${box123_executable_SOURCE_DIR})
+include_directories (${box123_include_SOURCE_DIR})
+include_directories (${box123_libbox123video_SOURCE_DIR})
+include_directories (${box123_libbox123logger_SOURCE_DIR})
+
+FILE(GLOB all_source_files "*.cpp")
+
+add_executable(box123 ${all_source_files})
+
+target_link_libraries(box123 libbox123logger_shared)
+target_link_libraries(box123 libbox123video_shared)
