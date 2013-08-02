@@ -1,17 +1,20 @@
 cmake_minimum_required (VERSION 2.8)
 
-#MESSAGE("${CMAKE_BUILD_TYPE}")
-#IF(DEFINED CMAKE_BUILD_TYPE)
-#    SET(CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE} CACHE STRING "Choose the type of
-#    build, options are: Debug Release RelWithDebInfo.")
-#    MESSAGE("IF: ${CMAKE_BUILD_TYPE}")
-#ELSE()
-#    SET(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build,
-#    options are: Debug Release RelWithDebInfo.")
-#    MESSAGE("ELSE: ${CMAKE_BUILD_TYPE}")
-#ENDIF()
-
 project (box123)
+
+find_package(OpenGL REQUIRED)
+if (OPENGL_FOUND)
+   MESSAGE("OpenGL found.")
+else (OPENGL_FOUND)
+   MESSAGE("OpenGL missing.")
+endif (OPENGL_FOUND)
+
+find_package(SDL REQUIRED)
+if (SDL_FOUND)
+    MESSAGE("SDL found.")
+else (SDL_FOUND)
+    MESSAGE("SDL missing.")
+endif (SDL_FOUND)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/build_output/${CMAKE_BUILD_TYPE}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/build_output/${CMAKE_BUILD_TYPE}/lib)
