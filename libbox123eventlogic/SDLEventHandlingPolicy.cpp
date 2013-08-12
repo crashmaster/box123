@@ -1,4 +1,4 @@
-#include <SDLEventHandlingPolicy.hpp>
+#include "SDLEventHandlingPolicy.hpp"
 
 int SDLEventHandlingPolicy::SDL_PollEvent(SDL_Event* event) const {
   return ::SDL_PollEvent(event);

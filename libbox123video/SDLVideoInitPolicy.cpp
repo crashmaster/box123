@@ -1,4 +1,4 @@
-#include <SDLVideoInitPolicy.hpp>
+#include "SDLVideoInitPolicy.hpp"
 
 int SDLVideoInitPolicy::SDL_Init() const {
   return ::SDL_Init(SDL_INIT_VIDEO);

@@ -1,5 +1,5 @@
 #include <boost/test/unit_test.hpp>
-#include <VideoSurface.hpp>
+#include "VideoSurface.hpp"
 
 BOOST_AUTO_TEST_SUITE(VideoSurfaceTestSuite)
 

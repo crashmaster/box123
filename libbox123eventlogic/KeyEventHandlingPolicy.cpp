@@ -1,4 +1,4 @@
-#include <KeyEventHandlingPolicy.hpp>
+#include "KeyEventHandlingPolicy.hpp"
 
 void KeyEventHandlingPolicy::handleKeyDownEvent(SDL_keysym* keysym) const {
   switch (keysym->sym) {

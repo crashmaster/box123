@@ -1,4 +1,4 @@
-#include <OpenGLInitPolicy.hpp>
+#include "OpenGLInitPolicy.hpp"
 #include <GL/gl.h>
 #include <GL/glu.h>
 

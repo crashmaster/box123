@@ -1,13 +1,13 @@
-#include <cstdio>
-#include <LoggingPolicy.hpp>
-#include <SDLVideoInitPolicy.hpp>
-#include <OpenGLInitPolicy.hpp>
-#include <VideoSurface.hpp>
-#include <SDLEventHandlingPolicy.hpp>
-#include <KeyEventHandlingPolicy.hpp>
-#include <EventProcessingPolicy.hpp>
-#include <DrawPolicy.hpp>
-#include <Scene.hpp>
+#include "LoggingPolicy.hpp"
+#include "SDLVideoInitPolicy.hpp"
+#include "OpenGLInitPolicy.hpp"
+#include "VideoSurface.hpp"
+
+#include "SDLEventHandlingPolicy.hpp"
+#include "KeyEventHandlingPolicy.hpp"
+#include "EventProcessingPolicy.hpp"
+#include "DrawPolicy.hpp"
+#include "Scene.hpp"
 
 typedef VideoSurface<LoggingPolicy,
                      SDLVideoInitPolicy,
