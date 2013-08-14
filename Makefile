@@ -5,6 +5,7 @@ OUTPUT_DIR := build_output/$(BUILD_TYPE_LC)
 OUTPUT_BIN_DIR := $(OUTPUT_DIR)/bin
 OUTPUT_LIB_DIR := $(OUTPUT_DIR)/lib
 OUTPUT_UNIT_TEST_DIR := $(OUTPUT_DIR)/unit_test
+OUTPUT_DIR_JS := build_output/javascript
 ECHO := /bin/echo
 
 ###############################################################################
@@ -54,18 +55,46 @@ call_cmake:
 	@cd $(BUILD_DIR) && cmake -DCMAKE_BUILD_TYPE=$(BUILD_TYPE_LC) ../../
 
 ###############################################################################
-# run
+# native
 ###############################################################################
 
-run: check_build_type_directory \
-     make_bin_lib_directories \
-     build_box123 \
-     run_box123
-.PHONY: build_box123 \
-        run_box123
+native: check_build_type_directory \
+        make_bin_lib_directories \
+        build_box123
+.PHONY: build_box123
 
 build_box123:
 	@$(MAKE) box123 --no-print-directory -C $(BUILD_DIR)
+
+###############################################################################
+# javascript
+###############################################################################
+
+javascript: make_javascript_output_directory \
+            build_box123_javascript
+
+.PHONY: make_javascript_output_directory \
+        build_box123_javascript
+
+make_javascript_output_directory:
+	@mkdir -p $(OUTPUT_DIR_JS)
+
+build_box123_javascript:
+	/home/pepi/src/git/emscripten/emcc \
+		-O1 \
+		-I libbox123logger \
+		-I libbox123video  \
+		-I include \
+		-I libbox123eventlogic \
+		box123/*.cpp libbox123*/*.cpp -o $(OUTPUT_DIR_JS)/box123.html
+
+###############################################################################
+# run
+###############################################################################
+
+run: native \
+     run_box123
+.PHONY: run_box123
 
 run_box123:
 	@$(ECHO) -e "\nBuild Type: $(BUILD_TYPE_LC)"

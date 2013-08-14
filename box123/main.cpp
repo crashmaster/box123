@@ -9,6 +9,10 @@
 #include "DrawPolicy.hpp"
 #include "Scene.hpp"
 
+#ifdef EMSCRIPTEN
+  #include <emscripten.h>
+#endif
+
 typedef VideoSurface<LoggingPolicy,
                      SDLVideoInitPolicy,
                      OpenGLInitPolicy> MyVideoSurfaceType;
@@ -18,18 +22,27 @@ typedef EventProcessingPolicy<SDLEventHandlingPolicy,
 
 typedef Scene<EventProcessingPolicyType, DrawPolicy> MySceneType;
 
+#ifdef EMSCRIPTEN
+  MySceneType* scenePtr = 0;
+
+  void stepForEMCC() {
+    scenePtr->step();
+  }
+#endif
+
 int main(void) {
   MyVideoSurfaceType myVideoSurface(640, 480);
   myVideoSurface.init();
 
   MySceneType myScene;
 
-#ifndef EMSCRIPTEN
+#ifdef EMSCRIPTEN
+  scenePtr = &myScene;
+  emscripten_set_main_loop(stepForEMCC, 0, 1);
+#else
   while (true) {
     myScene.step();
   }
-#else
-  emscripten_set_main_loop(tick, 0, 1);
 #endif
 
   return 0;

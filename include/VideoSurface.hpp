@@ -1,18 +1,17 @@
 #ifndef __VIDEO_SURFACE_HPP__
 #define __VIDEO_SURFACE_HPP__
 
-#include <boost/noncopyable.hpp>
 #include <SDL/SDL.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include "noncopyable.hpp"
 
 template <typename LogPolicy,
           typename SDLVideoInitPolicy,
           typename OpenGLInitPolicy>
 class VideoSurface: private LogPolicy,
                     private SDLVideoInitPolicy,
-                    private OpenGLInitPolicy,
-                    private boost::noncopyable {
+                    private OpenGLInitPolicy, private boost::noncopyable {
   public:
     VideoSurface(const int w, const int h): _width(w), _height(h) {
       LogPolicy::log("VideoSurface object constructed.");

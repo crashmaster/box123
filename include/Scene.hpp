@@ -1,8 +1,8 @@
 #ifndef __SCENE_HPP__
 #define __SCENE_HPP__
 
-#include <boost/noncopyable.hpp>
 #include <SDL/SDL.h>
+#include "noncopyable.hpp"
 
 template <typename EventProcessingPolicy,
           typename DrawScenePolicy>
