@@ -80,7 +80,7 @@ make_javascript_output_directory:
 	@mkdir -p $(OUTPUT_DIR_JS)
 
 build_box123_javascript:
-	/home/pepi/src/git/emscripten/emcc \
+	$(HOME)/usr/src/git/emscripten/emcc \
 		-O1 \
 		-I libbox123logger \
 		-I libbox123video  \
