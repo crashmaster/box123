@@ -10,9 +10,12 @@ class Scene: private EventProcessingPolicy,
              private DrawScenePolicy,
              private boost::noncopyable {
   public:
-    void step() const {
-      EventProcessingPolicy::handleEvents();
-      DrawScenePolicy::drawScene();
+    bool step() const {
+      bool proceed = false;
+      if ((proceed = EventProcessingPolicy::handleEvents()) == true) {
+        DrawScenePolicy::drawScene();
+      }
+      return proceed;
     }
 };
 

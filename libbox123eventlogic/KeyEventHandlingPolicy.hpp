@@ -5,7 +5,7 @@
 
 class KeyEventHandlingPolicy {
   protected:
-    void handleKeyDownEvent(SDL_keysym* keysym) const;
+    bool handleKeyDownEvent(SDL_keysym* keysym) const;
 };
 
 #endif

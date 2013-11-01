@@ -33,8 +33,9 @@ int main(void) {
 #ifdef EMSCRIPTEN
   emscripten_set_main_loop(stepForEMCC, 0, 1);
 #else
-  while (true) {
-    SCENE.step();
+  bool action = true;
+  while (action) {
+    action = SCENE.step();
   }
 #endif
 

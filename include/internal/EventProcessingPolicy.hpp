@@ -8,19 +8,22 @@ template <typename SDLEventHandlingPolicy,
 class EventProcessingPolicy: private SDLEventHandlingPolicy,
                              private KeyEventHandlingPolicy {
   protected:
-    void handleEvents() const {
+    bool handleEvents() const {
       SDL_Event event;
 
-      while (SDLEventHandlingPolicy::SDL_PollEvent(&event)) {
+      bool proceed = true;
+      while (proceed && SDLEventHandlingPolicy::SDL_PollEvent(&event)) {
         switch (event.type) {
           case SDL_KEYDOWN:
-            KeyEventHandlingPolicy::handleKeyDownEvent(&event.key.keysym);
+            proceed = KeyEventHandlingPolicy::handleKeyDownEvent(&event.key.keysym);
             break;
           case SDL_QUIT:
-            SDLEventHandlingPolicy::handleQuit();
-            return;
+            proceed = SDLEventHandlingPolicy::handleQuit();
+            break;
         }
       }
+
+      return proceed;
     }
 };
 

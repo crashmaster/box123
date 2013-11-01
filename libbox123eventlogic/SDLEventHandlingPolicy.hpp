@@ -6,7 +6,7 @@
 class SDLEventHandlingPolicy {
   protected:
     int SDL_PollEvent(SDL_Event* event) const;
-    void handleQuit() const;
+    bool handleQuit() const;
 };
 
 #endif
