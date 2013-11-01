@@ -13,20 +13,20 @@ class SDLVideoInitPolicy: private LoggingPolicy {
 
       if (0 != SDL_Init()) {
         LoggingPolicy::log("SDL init failed: " + SDLVideoInitPolicy::SDL_GetError());
-        SDLVideoInitPolicy::handleError();
+        handleError();
         return false;
       }
 
       const SDL_VideoInfo* videoInfo = 0;
       if (0 == (videoInfo = SDL_GetVideoInfo())) {
         LoggingPolicy::log("SDL get video information failed: " + SDLVideoInitPolicy::SDL_GetError());
-        SDLVideoInitPolicy::handleError();
+        handleError();
         return false;
       }
 
       if (0 != SDL_GL_SetAttributes()) {
         LoggingPolicy::log("SDL set GL attributes failed: " + SDLVideoInitPolicy::SDL_GetError());
-        SDLVideoInitPolicy::handleError();
+        handleError();
         return false;
       }
 
@@ -89,7 +89,6 @@ class SDLVideoInitPolicy: private LoggingPolicy {
 
     void handleError() const {
       ::SDL_Quit();
-      ::exit(1);
     }
 };
 

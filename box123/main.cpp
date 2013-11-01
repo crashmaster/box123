@@ -22,7 +22,6 @@ typedef EventProcessingPolicy<SDLEventHandlingPolicy,
                               KeyEventHandlingPolicy> SDLAndKeyEventProcessingPolicy;
 typedef Scene<SDLAndKeyEventProcessingPolicy, DrawPolicy> Box123Scene;
 
-Box123VideoSurface VIDEO_SURFACE(640, 480);
 Box123Scene SCENE;
 
 void stepForEMCC() {
@@ -30,6 +29,11 @@ void stepForEMCC() {
 }
 
 int main(void) {
+  Box123VideoSurface videoSurface(640, 480);
+  if (!videoSurface.init()) {
+    return 1;
+  }
+
 #ifdef EMSCRIPTEN
   emscripten_set_main_loop(stepForEMCC, 0, 1);
 #else

@@ -13,21 +13,22 @@ class VideoSurface: private SDLVideoInitPolicy,
                     private boost::noncopyable {
   public:
     VideoSurface(const int w, const int h): _width(w), _height(h) {
-      init();
     }
 
     ~VideoSurface() {
     }
 
-  private:
-    void init() {
+    bool init() {
       if (!SDLVideoInitPolicy::initSDL(_width, _height)) {
-        return;
+        return false;
       }
 
       OpenGLInitPolicy::initOpenGL(_width, _height);
+
+      return true;
     }
 
+  private:
     int _width;
     int _height;
 };
