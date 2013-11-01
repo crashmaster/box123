@@ -22,7 +22,6 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/build_output/${CMAKE_BU
 
 add_subdirectory(include)
 add_subdirectory(libbox123logger)
-add_subdirectory(libbox123video)
 add_subdirectory(libbox123eventlogic)
 add_subdirectory(box123)
 add_subdirectory(unit_test)

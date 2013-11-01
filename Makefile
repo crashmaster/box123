@@ -83,9 +83,9 @@ build_box123_javascript:
 	$(HOME)/usr/src/git/emscripten/emcc \
 		-O1 \
 		-I libbox123logger \
-		-I libbox123video  \
 		-I include \
 		-I libbox123eventlogic \
+		-s LEGACY_GL_EMULATION=1 \
 		box123/*.cpp libbox123*/*.cpp -o $(OUTPUT_DIR_JS)/box123.html
 
 ###############################################################################
@@ -97,8 +97,9 @@ run: native \
 .PHONY: run_box123
 
 run_box123:
-	@$(ECHO) -e "\nBuild Type: $(BUILD_TYPE_LC)"
-	@./$(OUTPUT_BIN_DIR)/box123
+	@$(ECHO) -e "\nBuild Type: $(BUILD_TYPE_LC)\n"
+	@$(ECHO) -n "Executing: "
+	./$(OUTPUT_BIN_DIR)/box123
 
 ###############################################################################
 # test
@@ -117,8 +118,9 @@ build_unit_test:
 	@$(MAKE) box123_unit_test --no-print-directory -C $(BUILD_DIR)
 
 run_unit_test:
-	@$(ECHO) -e "\nBuild Type: $(BUILD_TYPE_LC)"
-	@./$(OUTPUT_UNIT_TEST_DIR)/box123_unit_test --show_progress=yes --log_level=nothing
+	@$(ECHO) -e "\nBuild Type: $(BUILD_TYPE_LC)\n"
+	@$(ECHO) -n "Executing: "
+	./$(OUTPUT_UNIT_TEST_DIR)/box123_unit_test --show_progress=yes --log_level=nothing
 
 ###############################################################################
 # test_detailed
@@ -130,8 +132,9 @@ test_detailed: check_build_type_directory \
 .PHONY: run_unit_test_detailed
 
 run_unit_test_detailed:
-	@$(ECHO) -e "\nBuild Type: $(BUILD_TYPE_LC)"
-	@./$(OUTPUT_UNIT_TEST_DIR)/box123_unit_test --build_info=yes --log_level=all
+	@$(ECHO) -e "\nBuild Type: $(BUILD_TYPE_LC)\n"
+	@$(ECHO) -n "Executing: "
+	./$(OUTPUT_UNIT_TEST_DIR)/box123_unit_test --build_info=yes --log_level=all
 
 ###############################################################################
 # clean

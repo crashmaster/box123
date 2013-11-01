@@ -13,35 +13,28 @@
   #include <emscripten.h>
 #endif
 
-typedef VideoSurface<LoggingPolicy,
-                     SDLVideoInitPolicy,
-                     OpenGLInitPolicy> MyVideoSurfaceType;
+typedef SDLVideoInitPolicy<LoggingPolicy> SDLVideoInitPolicyWithLogging;
+typedef OpenGLInitPolicy<LoggingPolicy> OpenGLInitPolicyWithLogging;
+typedef VideoSurface<SDLVideoInitPolicyWithLogging,
+                     OpenGLInitPolicyWithLogging> Box123VideoSurface;
 
 typedef EventProcessingPolicy<SDLEventHandlingPolicy,
-                              KeyEventHandlingPolicy> EventProcessingPolicyType;
+                              KeyEventHandlingPolicy> SDLAndKeyEventProcessingPolicy;
+typedef Scene<SDLAndKeyEventProcessingPolicy, DrawPolicy> Box123Scene;
 
-typedef Scene<EventProcessingPolicyType, DrawPolicy> MySceneType;
+Box123VideoSurface VIDEO_SURFACE(640, 480);
+Box123Scene SCENE;
 
-#ifdef EMSCRIPTEN
-  MySceneType* scenePtr = 0;
-
-  void stepForEMCC() {
-    scenePtr->step();
-  }
-#endif
+void stepForEMCC() {
+  SCENE.step();
+}
 
 int main(void) {
-  MyVideoSurfaceType myVideoSurface(640, 480);
-  myVideoSurface.init();
-
-  MySceneType myScene;
-
 #ifdef EMSCRIPTEN
-  scenePtr = &myScene;
   emscripten_set_main_loop(stepForEMCC, 0, 1);
 #else
   while (true) {
-    myScene.step();
+    SCENE.step();
   }
 #endif
 

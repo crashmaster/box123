@@ -142,8 +142,7 @@ class OpenGLInitPolicy_TestHappyFlow {
 };
 
 BOOST_AUTO_TEST_CASE(testVideoSurfaceXstructorLogging) {
-  typedef VideoSurface<LoggingPolicy_Test,
-                       SDLVideoInitPolicy_TestHappyFlow,
+  typedef VideoSurface<SDLVideoInitPolicy_TestHappyFlow,
                        OpenGLInitPolicy_TestHappyFlow> TestVideoSurfaceType;
 
   TestVideoSurfaceType* myTestVideoSurface = new TestVideoSurfaceType(240, 240);
@@ -155,8 +154,7 @@ BOOST_AUTO_TEST_CASE(testVideoSurfaceXstructorLogging) {
 }
 
 BOOST_AUTO_TEST_CASE(testVideoSurface_HappyFlow) {
-  typedef VideoSurface<LoggingPolicy_Test,
-                       SDLVideoInitPolicy_TestHappyFlow,
+  typedef VideoSurface<SDLVideoInitPolicy_TestHappyFlow,
                        OpenGLInitPolicy_TestHappyFlow> TestVideoSurfaceType;
 
   TestVideoSurfaceType myTestVideoSurface(360, 360);
@@ -175,8 +173,7 @@ BOOST_AUTO_TEST_CASE(testVideoSurface_HappyFlow) {
 }
 
 BOOST_AUTO_TEST_CASE(testVideoSurface_SDL_Init_NOK) {
-  typedef VideoSurface<LoggingPolicy_Test,
-                       SDLVideoInitPolicy_TestSDLInitFail,
+  typedef VideoSurface<SDLVideoInitPolicy_TestSDLInitFail,
                        OpenGLInitPolicy_TestHappyFlow> TestVideoSurfaceType;
 
   TestVideoSurfaceType myTestVideoSurface(480, 480);
@@ -193,8 +190,7 @@ BOOST_AUTO_TEST_CASE(testVideoSurface_SDL_Init_NOK) {
 }
 
 BOOST_AUTO_TEST_CASE(testVideoSurface_SDL_GetVideoInfo_NOK) {
-  typedef VideoSurface<LoggingPolicy_Test,
-                       SDLVideoInitPolicy_TestSDLGetVideoInfoFail,
+  typedef VideoSurface<SDLVideoInitPolicy_TestSDLGetVideoInfoFail,
                        OpenGLInitPolicy_TestHappyFlow> TestVideoSurfaceType;
 
   TestVideoSurfaceType myTestVideoSurface(640, 640);
@@ -211,8 +207,7 @@ BOOST_AUTO_TEST_CASE(testVideoSurface_SDL_GetVideoInfo_NOK) {
 }
 
 BOOST_AUTO_TEST_CASE(testVideoSurface_SDL_GL_SetAttributes_NOK) {
-  typedef VideoSurface<LoggingPolicy_Test,
-                       SDLVideoInitPolicy_TestSDLGLSetAttributesFail,
+  typedef VideoSurface<SDLVideoInitPolicy_TestSDLGLSetAttributesFail,
                        OpenGLInitPolicy_TestHappyFlow> TestVideoSurfaceType;
 
   TestVideoSurfaceType myTestVideoSurface(640, 640);
@@ -229,8 +224,7 @@ BOOST_AUTO_TEST_CASE(testVideoSurface_SDL_GL_SetAttributes_NOK) {
 }
 
 BOOST_AUTO_TEST_CASE(testVideoSurface_SDL_SetVideoMode_NOK) {
-  typedef VideoSurface<LoggingPolicy_Test,
-                       SDLVideoInitPolicy_TestSDLSetVideoModeFail,
+  typedef VideoSurface<SDLVideoInitPolicy_TestSDLSetVideoModeFail,
                        OpenGLInitPolicy_TestHappyFlow> TestVideoSurfaceType;
 
   TestVideoSurfaceType myTestVideoSurface(640, 640);
