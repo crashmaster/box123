@@ -1,9 +1,13 @@
+#include "box123/EventProcessingPolicy.hpp"
+
+#include <SDL/SDL.h>
+
 #include <boost/test/unit_test.hpp>
 #include <queue>
 #include <vector>
-#include <SDL/SDL.h>
-#include "EventProcessingPolicy.hpp"
-#include "Scene.hpp"
+
+#include "box123/Scene.hpp"
+
 
 BOOST_AUTO_TEST_SUITE(EventProcessingPolicyTestSuite)
 

@@ -1,5 +1,6 @@
 #include "box123/KeyEventHandlingPolicy.hpp"
 
+
 bool KeyEventHandlingPolicy::handleKeyDownEvent(SDL_keysym* keysym) const {
   switch (keysym->sym) {
     case SDLK_ESCAPE:

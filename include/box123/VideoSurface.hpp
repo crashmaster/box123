@@ -1,10 +1,12 @@
 #ifndef __VIDEO_SURFACE_HPP__
 #define __VIDEO_SURFACE_HPP__
 
-#include <SDL/SDL.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <SDL/SDL.h>
+
 #include <boost/noncopyable.hpp>
+
 
 template <typename SDLVideoInitPolicy,
           typename OpenGLInitPolicy>

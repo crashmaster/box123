@@ -3,6 +3,7 @@
 
 #include <SDL/SDL.h>
 
+
 template <typename SDLEventHandlingPolicy,
           typename KeyEventHandlingPolicy>
 class EventProcessingPolicy: private SDLEventHandlingPolicy,

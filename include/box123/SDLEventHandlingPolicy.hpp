@@ -3,6 +3,7 @@
 
 #include <SDL/SDL.h>
 
+
 class SDLEventHandlingPolicy {
   protected:
     int SDL_PollEvent(SDL_Event* event) const;

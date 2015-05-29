@@ -1,8 +1,9 @@
 #ifndef __DRAW_POLICY_HPP__
 #define __DRAW_POLICY_HPP__
 
-#include <SDL/SDL.h>
 #include <GL/gl.h>
+#include <SDL/SDL.h>
+
 
 class DrawPolicy {
   protected:

@@ -12,6 +12,7 @@
   #include <emscripten.h>
 #endif
 
+
 typedef SDLVideoInitPolicy<LoggingPolicy> SDLVideoInitPolicyWithLogging;
 typedef OpenGLInitPolicy<LoggingPolicy> OpenGLInitPolicyWithLogging;
 typedef VideoSurface<SDLVideoInitPolicyWithLogging,

@@ -4,6 +4,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
+
 template <typename LoggingPolicy>
 class OpenGLInitPolicy: private LoggingPolicy {
   protected:

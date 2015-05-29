@@ -1,6 +1,7 @@
+#include "box123/VideoSurface.hpp"
+
 #include <boost/test/unit_test.hpp>
 
-#include "box123/VideoSurface.hpp"
 
 BOOST_AUTO_TEST_SUITE(VideoSurfaceTestSuite)
 

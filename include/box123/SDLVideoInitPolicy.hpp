@@ -2,8 +2,10 @@
 #define __SDL_VIDEO_INIT_POLICY_HPP__
 
 #include <stdlib.h>
-#include <string>
 #include <SDL/SDL.h>
+
+#include <string>
+
 
 template <typename LoggingPolicy>
 class SDLVideoInitPolicy: private LoggingPolicy {

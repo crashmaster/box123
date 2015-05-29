@@ -3,6 +3,7 @@
 
 #include <SDL/SDL.h>
 
+
 class KeyEventHandlingPolicy {
   protected:
     bool handleKeyDownEvent(SDL_keysym* keysym) const;

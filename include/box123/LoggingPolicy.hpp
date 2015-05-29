@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <string>
 
+
 class LoggingPolicy {
   protected:
     void log(const std::string& message) const;
