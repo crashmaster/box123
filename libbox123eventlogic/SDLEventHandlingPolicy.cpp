@@ -1,5 +1,4 @@
-#include "SDLEventHandlingPolicy.hpp"
-#include <stdlib.h>
+#include "box123/SDLEventHandlingPolicy.hpp"
 
 int SDLEventHandlingPolicy::SDL_PollEvent(SDL_Event* event) const {
   return ::SDL_PollEvent(event);

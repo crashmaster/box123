@@ -1,13 +1,12 @@
-#include "LoggingPolicy.hpp"
-#include "SDLVideoInitPolicy.hpp"
-#include "OpenGLInitPolicy.hpp"
-#include "VideoSurface.hpp"
-
-#include "SDLEventHandlingPolicy.hpp"
-#include "KeyEventHandlingPolicy.hpp"
-#include "EventProcessingPolicy.hpp"
-#include "DrawPolicy.hpp"
-#include "Scene.hpp"
+#include "box123/DrawPolicy.hpp"
+#include "box123/EventProcessingPolicy.hpp"
+#include "box123/KeyEventHandlingPolicy.hpp"
+#include "box123/LoggingPolicy.hpp"
+#include "box123/OpenGLInitPolicy.hpp"
+#include "box123/SDLEventHandlingPolicy.hpp"
+#include "box123/SDLVideoInitPolicy.hpp"
+#include "box123/Scene.hpp"
+#include "box123/VideoSurface.hpp"
 
 #ifdef EMSCRIPTEN
   #include <emscripten.h>

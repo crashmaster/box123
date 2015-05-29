@@ -1,6 +1,7 @@
 project (box123_libbox123logger)
 
 include_directories(.)
+include_directories (${box123_include_SOURCE_DIR})
 
 FILE(GLOB all_source_files "*.cpp")
 

@@ -1,5 +1,6 @@
 #include <boost/test/unit_test.hpp>
-#include "Scene.hpp"
+
+#include "box123/Scene.hpp"
 
 BOOST_AUTO_TEST_SUITE(SceneTestSuite)
 

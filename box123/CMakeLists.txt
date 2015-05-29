@@ -1,11 +1,6 @@
 project (box123_executable)
 
-include_directories (${box123_executable_SOURCE_DIR})
-include_directories (${box123_include_internal_SOURCE_DIR})
-include_directories (${box123_include_external_SOURCE_DIR})
-include_directories (${box123_libbox123logger_SOURCE_DIR})
-include_directories (${box123_libbox123video_SOURCE_DIR})
-include_directories (${box123_libbox123eventlogic_SOURCE_DIR})
+include_directories (${box123_include_SOURCE_DIR})
 
 FILE(GLOB all_source_files "*.cpp")
 

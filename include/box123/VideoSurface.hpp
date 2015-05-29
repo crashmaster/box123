@@ -4,7 +4,7 @@
 #include <SDL/SDL.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include "noncopyable.hpp"
+#include <boost/noncopyable.hpp>
 
 template <typename SDLVideoInitPolicy,
           typename OpenGLInitPolicy>

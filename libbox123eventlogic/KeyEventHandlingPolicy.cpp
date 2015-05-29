@@ -1,5 +1,4 @@
-#include "KeyEventHandlingPolicy.hpp"
-#include <stdlib.h>
+#include "box123/KeyEventHandlingPolicy.hpp"
 
 bool KeyEventHandlingPolicy::handleKeyDownEvent(SDL_keysym* keysym) const {
   switch (keysym->sym) {
