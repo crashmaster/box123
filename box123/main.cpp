@@ -15,11 +15,8 @@
 
 typedef SDLVideoInitPolicy<LoggingPolicy> SDLVideoInitPolicyWithLogging;
 typedef OpenGLInitPolicy<LoggingPolicy> OpenGLInitPolicyWithLogging;
-typedef VideoSurface<SDLVideoInitPolicyWithLogging,
-                     OpenGLInitPolicyWithLogging> Box123VideoSurface;
-
-typedef EventProcessingPolicy<SDLEventHandlingPolicy,
-                              KeyEventHandlingPolicy> SDLAndKeyEventProcessingPolicy;
+typedef VideoSurface<SDLVideoInitPolicyWithLogging, OpenGLInitPolicyWithLogging> Box123VideoSurface;
+typedef EventProcessingPolicy<SDLEventHandlingPolicy, KeyEventHandlingPolicy> SDLAndKeyEventProcessingPolicy;
 typedef Scene<SDLAndKeyEventProcessingPolicy, DrawPolicy> Box123Scene;
 
 Box123Scene SCENE;

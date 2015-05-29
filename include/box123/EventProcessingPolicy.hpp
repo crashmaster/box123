@@ -1,7 +1,7 @@
 #ifndef __EVENT_PROCESSING_POLICY_HPP__
 #define __EVENT_PROCESSING_POLICY_HPP__
 
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 
 template <typename SDLEventHandlingPolicy,

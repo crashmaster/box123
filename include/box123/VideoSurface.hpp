@@ -3,7 +3,7 @@
 
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 #include <boost/noncopyable.hpp>
 

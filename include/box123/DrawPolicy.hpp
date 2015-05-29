@@ -2,12 +2,12 @@
 #define __DRAW_POLICY_HPP__
 
 #include <GL/gl.h>
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 
 class DrawPolicy {
   protected:
-    void drawScene() const {
+    void drawScene(SDL_Window* window) const {
       static GLfloat rtri = 0.0f;
 
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -47,7 +47,7 @@ class DrawPolicy {
       glVertex3f(-1.0f, -1.0f,  1.0f);
       glEnd();
 
-      SDL_GL_SwapBuffers();
+      SDL_GL_SwapWindow(window);
 
       rtri  += 0.02f;
     }

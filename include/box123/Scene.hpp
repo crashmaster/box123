@@ -1,7 +1,7 @@
 #ifndef __SCENE_HPP__
 #define __SCENE_HPP__
 
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 #include <boost/noncopyable.hpp>
 
@@ -12,10 +12,10 @@ class Scene: private EventProcessingPolicy,
              private DrawScenePolicy,
              private boost::noncopyable {
   public:
-    bool step() const {
+    bool step(SDL_Window* window) const {
       bool proceed = false;
       if ((proceed = EventProcessingPolicy::handleEvents()) == true) {
-        DrawScenePolicy::drawScene();
+        DrawScenePolicy::drawScene(window);
       }
       return proceed;
     }

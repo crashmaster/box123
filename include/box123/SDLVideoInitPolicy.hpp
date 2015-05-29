@@ -2,7 +2,7 @@
 #define __SDL_VIDEO_INIT_POLICY_HPP__
 
 #include <stdlib.h>
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 #include <string>
 
@@ -19,24 +19,16 @@ class SDLVideoInitPolicy: private LoggingPolicy {
         return false;
       }
 
-      const SDL_VideoInfo* videoInfo = 0;
-      if (0 == (videoInfo = SDL_GetVideoInfo())) {
-        LoggingPolicy::log("SDL get video information failed: " + SDLVideoInitPolicy::SDL_GetError());
-        handleError();
-        return false;
-      }
-
       if (0 != SDL_GL_SetAttributes()) {
         LoggingPolicy::log("SDL set GL attributes failed: " + SDLVideoInitPolicy::SDL_GetError());
         handleError();
         return false;
       }
 
-      int bpp = videoInfo->vfmt->BitsPerPixel;
-      Uint32 flags = SDL_GetVideoModeFlags();
+      SDL_WindowFlags flags = GetWindowFlags();
 
-      const SDL_Surface* surface = 0;
-      if (0 == (surface = SDL_SetVideoMode(width, height, bpp, flags))) {
+      const SDL_Window* window = 0;
+      if (0 == (window = CreateWindow(width, height, flags))) {
         LoggingPolicy::log("SDL set video mode failed: " + SDL_GetError());
         handleError();
         return false;
@@ -48,10 +40,6 @@ class SDLVideoInitPolicy: private LoggingPolicy {
   private:
     int SDL_Init() const {
       return ::SDL_Init(SDL_INIT_VIDEO);
-    }
-
-    const SDL_VideoInfo* SDL_GetVideoInfo() const {
-      return ::SDL_GetVideoInfo();
     }
 
     int SDL_GL_SetAttributes() const {
@@ -73,16 +61,22 @@ class SDLVideoInitPolicy: private LoggingPolicy {
       return 0;
     }
 
-    Uint32 SDL_GetVideoModeFlags() const {
-      return SDL_OPENGL;
+    SDL_WindowFlags GetWindowFlags() const {
+      return SDL_WINDOW_OPENGL;
     }
 
-    SDL_Surface* SDL_SetVideoMode(const int width,
-                                  const int height,
-                                  const int bpp,
-                                  const Uint32 flags) const
+    SDL_Window* CreateWindow(const int width,
+                             const int height,
+                             const SDL_WindowFlags flags) const
     {
-      return ::SDL_SetVideoMode(width, height, bpp, flags);
+      return ::SDL_CreateWindow(
+        "box123",
+        SDL_WINDOWPOS_UNDEFINED,
+        SDL_WINDOWPOS_UNDEFINED,
+        width,
+        height,
+        flags
+      );
     }
 
     std::string SDL_GetError() const {
