@@ -1,7 +1,6 @@
 # CMake
 CMakeCache.txt
 CMakeFiles
-Makefile
 cmake_install.cmake
 install_manifest.txt
 
@@ -20,6 +19,7 @@ install_manifest.txt
 *.a
 
 # Build targets
+build
 build_output
 build_type
 

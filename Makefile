@@ -8,7 +8,9 @@ all: usage
 usage:
 	@echo "Use 'make clang' or 'make gcc'."
 
-# clang
+#########
+# clang #
+#########
 
 CLANG_BUILD_DIR := $(REPO_DIR)/build/clang
 PREPARE_CLANG_BUILD_DIR_STAMP := $(CLANG_BUILD_DIR)/.prepare_clang_build_dir.stamp
@@ -34,7 +36,9 @@ $(PREPARE_CLANG_MAKE_FILES_STAMP): $(PREPARE_CLANG_BUILD_DIR_STAMP)
 clean-clang:
 	@rm -rf "$(CLANG_BUILD_DIR)"
 
-# gcc
+#######
+# gcc #
+#######
 
 GCC_BUILD_DIR := $(REPO_DIR)/build/gcc
 PREPARE_GCC_BUILD_DIR_STAMP := $(GCC_BUILD_DIR)/.prepare_gcc_build_dir.stamp
@@ -60,8 +64,13 @@ $(PREPARE_GCC_MAKE_FILES_STAMP): $(PREPARE_GCC_BUILD_DIR_STAMP)
 clean-gcc:
 	@rm -rf "$(GCC_BUILD_DIR)"
 
-# common
+##########
+# common #
+##########
+
+BUILD_DIR := $(REPO_DIR)/build
 
 build-all: build-clang build-gcc
 
 clean-all: clean-clang clean-gcc
+	@rmdir $(BUILD_DIR)
