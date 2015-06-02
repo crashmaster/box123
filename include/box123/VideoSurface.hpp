@@ -20,9 +20,10 @@ class VideoSurface: private SDLVideoInitPolicy,
     ~VideoSurface() {
     }
 
-    bool init() {
-      if (!SDLVideoInitPolicy::initSDL(_width, _height)) {
-        return false;
+    const SDL_Window* init() {
+      const SDL_Window* window = nullptr;
+      if (nullptr == (window = SDLVideoInitPolicy::initSDL(_width, _height))) {
+        return nullptr;
       }
 
       OpenGLInitPolicy::initOpenGL(_width, _height);

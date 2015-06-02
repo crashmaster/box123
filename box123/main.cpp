@@ -27,7 +27,8 @@ void stepForEMCC() {
 
 int main(void) {
   Box123VideoSurface videoSurface(640, 480);
-  if (!videoSurface.init()) {
+  const SDL_Window* window = nullptr;
+  if (nullptr == (window = videoSurface.init())) {
     return 1;
   }
 

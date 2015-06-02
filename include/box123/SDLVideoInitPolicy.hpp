@@ -10,19 +10,19 @@
 template <typename LoggingPolicy>
 class SDLVideoInitPolicy: private LoggingPolicy {
   protected:
-    bool initSDL(const int width, const int height) {
+    const SDL_Window* initSDL(const int width, const int height) {
       LoggingPolicy::log("SDL video initialization started.");
 
       if (0 != SDL_Init()) {
         LoggingPolicy::log("SDL init failed: " + SDLVideoInitPolicy::SDL_GetError());
         handleError();
-        return false;
+        return nullptr;
       }
 
       if (0 != SDL_GL_SetAttributes()) {
         LoggingPolicy::log("SDL set GL attributes failed: " + SDLVideoInitPolicy::SDL_GetError());
         handleError();
-        return false;
+        return nullptr;
       }
 
       SDL_WindowFlags flags = GetWindowFlags();
@@ -31,11 +31,11 @@ class SDLVideoInitPolicy: private LoggingPolicy {
       if (0 == (window = CreateWindow(width, height, flags))) {
         LoggingPolicy::log("SDL set video mode failed: " + SDL_GetError());
         handleError();
-        return false;
+        return nullptr;
       }
 
       LoggingPolicy::log("SDL video initialization finished.");
-      return true;
+      return window;
     }
   private:
     int SDL_Init() const {
