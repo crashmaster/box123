@@ -70,6 +70,8 @@ clean-gcc:
 
 BUILD_DIR := $(REPO_DIR)/build
 
+.PHONY: build-all clean-all
+
 build-all: build-clang build-gcc
 
 clean-all: clean-clang clean-gcc
