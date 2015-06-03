@@ -20,15 +20,15 @@ class VideoSurface: private SDLVideoInitPolicy,
     ~VideoSurface() {
     }
 
-    const SDL_Window* init() {
-      const SDL_Window* window = nullptr;
+    SDL_Window* init() {
+      SDL_Window* window = nullptr;
       if (nullptr == (window = SDLVideoInitPolicy::initSDL(_width, _height))) {
         return nullptr;
       }
 
       OpenGLInitPolicy::initOpenGL(_width, _height);
 
-      return true;
+      return window;
     }
 
   private:

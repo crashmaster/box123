@@ -10,7 +10,7 @@
 template <typename LoggingPolicy>
 class SDLVideoInitPolicy: private LoggingPolicy {
   protected:
-    const SDL_Window* initSDL(const int width, const int height) {
+    SDL_Window* initSDL(const int width, const int height) {
       LoggingPolicy::log("SDL video initialization started.");
 
       if (0 != SDL_Init()) {
@@ -27,7 +27,7 @@ class SDLVideoInitPolicy: private LoggingPolicy {
 
       SDL_WindowFlags flags = GetWindowFlags();
 
-      const SDL_Window* window = 0;
+      SDL_Window* window = 0;
       if (0 == (window = CreateWindow(width, height, flags))) {
         LoggingPolicy::log("SDL set video mode failed: " + SDL_GetError());
         handleError();

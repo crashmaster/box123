@@ -21,23 +21,23 @@ typedef Scene<SDLAndKeyEventProcessingPolicy, DrawPolicy> Box123Scene;
 
 Box123Scene SCENE;
 
-void stepForEMCC() {
-  SCENE.step();
+void stepForEMCC(SDL_Window* window) {
+  SCENE.step(window);
 }
 
 int main(void) {
   Box123VideoSurface videoSurface(640, 480);
-  const SDL_Window* window = nullptr;
+  SDL_Window* window = nullptr;
   if (nullptr == (window = videoSurface.init())) {
     return 1;
   }
 
 #ifdef EMSCRIPTEN
-  emscripten_set_main_loop(stepForEMCC, 0, 1);
+  emscripten_set_main_loop_arg(stepForEMCC, window, 0, 1);
 #else
   bool action = true;
   while (action) {
-    action = SCENE.step();
+    action = SCENE.step(window);
   }
 #endif
 
